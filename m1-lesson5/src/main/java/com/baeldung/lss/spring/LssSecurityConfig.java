@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -18,21 +19,26 @@ public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { // @formatter:off 
         auth.
-            inMemoryAuthentication().
-            withUser("user").password("pass").
-            roles("USER");
+                inMemoryAuthentication().
+                withUser("user").password("pass").
+                roles("USER");
     } // @formatter:on
 
     @Override
     protected void configure(HttpSecurity http) throws Exception { // @formatter:off
         http
-        .authorizeRequests()
+                .authorizeRequests()
                 .anyRequest().authenticated()
-        
-        .and()
-        .formLogin().
-            loginPage("/login").permitAll().
-            loginProcessingUrl("/doLogin")
+
+                .and()
+                .formLogin().
+                loginPage("/login").permitAll().
+                loginProcessingUrl("/doLogin")
+
+                .and()
+                .logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/doLogout", "GET"))
+                .and()
+                .csrf().disable()
         ;
     } // @formatter:on
 
