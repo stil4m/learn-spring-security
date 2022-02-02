@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private LssUserDetailsService lssUserDetailsService;
+
     public LssSecurityConfig() {
         super();
     }
@@ -17,10 +20,7 @@ public class LssSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { // @formatter:off 
-        auth.
-            inMemoryAuthentication().
-            withUser("user").password("pass").
-            roles("USER");
+        auth.userDetailsService(lssUserDetailsService);
     } // @formatter:on
 
     @Override
