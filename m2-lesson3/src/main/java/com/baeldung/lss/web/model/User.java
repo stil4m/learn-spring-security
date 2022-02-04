@@ -1,5 +1,6 @@
 package com.baeldung.lss.web.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +30,9 @@ public class User {
     @Transient
     @NotEmpty(message = "Password confirmation is required.")
     private String passwordConfirmation;
+
+    @Column
+    private Boolean enabled;
 
     private Calendar created = Calendar.getInstance();
 
@@ -70,6 +74,14 @@ public class User {
 
     public void setPasswordConfirmation(final String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(final Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override
